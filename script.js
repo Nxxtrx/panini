@@ -610,7 +610,7 @@ document.addEventListener("DOMContentLoaded", function () {
   updateTotalPrice();
 
   // интеграция dadata
-  var url = "http://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
+  var url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
   var token = "f86689b0d9339eda4ee961415b03555a9a09f67f";
   const addressQuery = document.getElementById("address");
   const addressSuggestions = document.querySelector(".delivery-address__dropdown-list");
