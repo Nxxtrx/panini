@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&amp;display=swap" rel="stylesheet">
+</head>
+<body>
+  <section class="placing">
+    <button class="placing__back">Вернуться в меню</button>
+    <button class="placing__back-mobile">
+      <img src="./img/svg/arrow.svg" alt="Кнопка назад">
+    </button>
+    <h1 class="placing__title">Оформление заказа</h1>
+    <div class="placing__conteiner">
+      <form class="placing__form" id="placingForm" novalidate>
+        <div class="placing__right">
+          <p class="placing__advice">Оставьте ваши данные, мы с вами свяжемся<br>и подтвердим ваш заказ</p>
+          <div class="placing__divider"></div>
+          <p class="placing__delivery-condition">Условия доставки (выбираем условный радиус: например, 5 км - 100 руб., 10 км - 200 руб.)</p>
+          
+          <!-- Имя -->
+          <div class="placing__form-group">
+            <label class="placing__label" for="name">Как можно к вам обращаться?<span>*</span></label>
+            <input class="placing__input" name="name" id="name" type="text" placeholder="Ваше имя" required>
+            <div class="errors" id="nameError"></div>
+          </div>
+
+          <!-- Телефон -->
+          <div class="placing__form-group">
+            <label class="placing__label" for="phone">Как можно будет с вами связаться?<span>*</span></label>
+            <input class="placing__input" name="phone" id="phone" type="tel" placeholder="+ 7 (000)-000-00-00" required>
+            <div class="errors" id="phoneError"></div>
+          </div>
+  
+          <!-- Способ получения -->
+          <div class="placing__form-group">
+            <fieldset class="placing__fieldset">
+              <legend class="placing__label">Способ получения</legend>
+              <label class="placing__radio">
+                <input type="radio" name="deliveryType" value="delivery" checked>
+                <span class="placing__radio-btn"></span>
+                Доставка
+              </label>
+              <label class="placing__radio">
+                <input type="radio" name="deliveryType" value="pickup">
+                <span class="placing__radio-btn"></span>
+                Самовывоз (Скидка 20% при самовывозе)
+              </label>
+            </fieldset>
+          </div>
+
+          <p class="placing__description">
+              Адрес самовывоза - ресторан "Панини": Уфа, ул. Чернышевского, 88/1 (Арт Квадрат)
+          </p>
+          
+          <!-- Адрес -->
+          <div class="placing__form-group delivery-address">
+            <label class="placing__label" for="address">Адрес доставки</label>
+            <div class="delivery-address__dropdown">
+              <div class="delivery-address__dropdown-header">
+                <input class="placing__input" name="address" type="text" id="address" placeholder="Введите адрес доставки">
+                <button type="button" class="delivery-address__dropdown-clear"></button>
+              </div>
+              <ul class="delivery-address__dropdown-list">
+              </ul>
+            </div>
+            <div class="delivery-address__inputs">
+                <input class="placing__input placing__input_type_number" id="entrance" name="entrance" min="0" type="number" placeholder="Подъезд">
+                <input class="placing__input placing__input_type_number" id="apartment" name="apartment" min="0" type="number" placeholder="КВ">
+                <input class="placing__input placing__input_type_number" name="floor" type="number" min="0" placeholder="Этаж">
+                <input class="placing__input placing__input_type_number" name="code" type="number" min="0" placeholder="Код двери">
+            </div>
+            <div class="errors" id="addressError">        
+            </div>
+          </div>
+
+          <div class="map">
+            <div id="map"></div>
+            <div class="map__info">
+              <div class="map__legend">
+                <div class="map__legend-item" data-value="center" data-price="200">
+                  <span class="color-box" style="background: #85d8cd;"></span>
+                  Центр (200 руб. от 1000 руб. бесплатно)
+                </div>
+                <div class="map__legend-item" data-value="sipailovo" data-price="200">
+                  <span class="color-box" style="background: #f4a567;"></span>
+                  Сипайлово (200 руб. от 1000 руб. бесплатно)
+                </div>
+                <div class="map__legend-item" data-value="zelenka" data-price="200">
+                  <span class="color-box" style="background: #fef07b;"></span>
+                  Зеленая роща (200 руб. от 1000 руб. бесплатно)
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Зона доставки -->
+          <!-- <div class="placing__form-group delivery-zone">
+            <label class="placing__label" for="zone">Зона доставки</label>
+            <div class="dropdown" id="zone">
+              <div class="dropdown-header">
+                <span class="placing__input dropdown-text"></span>
+                <img class="dropdown-arrow" src="./img/svg/select-arrow.svg" alt="">
+              </div>
+              <ul class="dropdown-list">
+                <li class="dropdown-item" data-value="1">Сипайлово</li>
+                <li class="dropdown-item" data-value="2">Центр</li>
+                <li class="dropdown-item" data-value="3">Зеленая роща</li>
+                <li class="dropdown-item" data-value="4">Док</li>
+                <li class="dropdown-item" data-value="5">Черниковка</li>
+              </ul>
+            </div>
+          </div> -->
+  
+          <!-- Доставка ко времени -->
+          <div class="placing__form-group delivery-time">
+            <label class="placing__label" for="delivery-date">Доставка ко времени</label>
+            <div class="dropdown" id="deliveryDate">
+              <div class="dropdown-header">
+                <span class="placing__input dropdown-text"></span>
+                <img class="dropdown-arrow" src="./img/svg/select-arrow.svg" alt="">
+              </div>
+              <ul class="dropdown-list">
+                <li class="dropdown-item" data-value="1">Как можно скорее</li>
+                <li class="dropdown-item" data-value="2">к 11:00</li>
+                <li class="dropdown-item" data-value="3">к 11:30</li>
+                <li class="dropdown-item" data-value="4">к 12:00</li>
+                <li class="dropdown-item" data-value="5">к 12:30</li>
+                <li class="dropdown-item" data-value="6">к 13:00</li>
+              </ul>
+            </div>
+          </div>
+          <div class="placing__divider placing__divider_type_mobile"></div>
+  
+          <!-- Количество приборов -->
+          <div class="placing__form-group">
+            <label class="placing__label" for="devices-сount">Количество приборов</label>
+            <div class="dropdown" id="devicesCount">
+              <div class="dropdown-header">
+                <span class="placing__input dropdown-text"></span>
+                <img class="dropdown-arrow" src="./img/svg/select-arrow.svg" alt="">
+              </div>
+              <ul class="dropdown-list">
+                <li class="dropdown-item" data-value="1">1</li>
+                <li class="dropdown-item" data-value="2">2</li>
+                <li class="dropdown-item" data-value="3">3</li>
+                <li class="dropdown-item" data-value="4">4</li>
+              </ul>
+            </div>
+          </div>
+  
+          <!-- Комментарий -->
+          <div class="placing__form-group">
+            <label class="placing__label" for="comment">Комментарий к заказу</label>
+            <textarea class="placing__textarea" name="comment" id="comment" rows="5" placeholder="Опишите ваши пожелания к заказу"></textarea>
+          </div>
+  
+          <!-- Промокод -->
+          <div class="promocode">
+            <div class="placing__form-group">
+              <label class="placing__label" for="promocode">Промокод</label>
+              <input class="placing__input" name="promocode" id="promocode" type="text" placeholder="Введите промокод">
+              <div class="errors" id="promocodeError">        
+              </div>
+            </div>
+          </div>
+  
+          <div class="placing__divider"></div>
+  
+          <!-- Способы оплаты -->
+          <div class="placing__form-group">
+            <fieldset class="placing__fieldset">
+              <legend class="placing__label">Способ оплаты</legend>
+              <label class="placing__radio">
+                  <input type="radio" name="payment" value="card" checked>
+                  <span class="placing__radio-btn"></span>
+                  Картой на сайте
+              </label>
+              <label class="placing__radio">
+                  <input type="radio" name="payment" value="sbp">
+                  <span class="placing__radio-btn"></span>
+                  Через СБП
+              </label>
+            </fieldset>
+          </div>
+
+          <p class="placing__footer-text">
+            Заказы, оформленные после 22:30, обрабатываются <br>на следующий день с 12:00
+          </p>
+        </div>
+
+
+        <div class="placing__left">
+          <div class="placing__output">
+            <div class="placing__checklist">
+              <div class="placing__checklist-container">
+                <p class="placing__checklist-text" id="count">6 товаров</p>
+                <p class="placing__checklist-text" id="price">1040 ₽</p>
+              </div>
+              <div class="placing__checklist-container">
+                <p class="placing__checklist-text">Промокод</p>
+                <p class="placing__checklist-text" id="promocodePrice">0 ₽</p>
+              </div>
+              <div class="placing__checklist-container">
+                <p class="placing__checklist-text">Доставка</p>
+                <p class="placing__checklist-text" id="deliveryPrice">Бесплатно</p>
+              </div>
+              <div class="placing__checklist-container placing__checklist-container_type_discount">
+                <p class="placing__checklist-text">Скидка</p>
+                <p class="placing__checklist-text" id="discount">-245 ₽</p>
+              </div>
+            </div>
+            <div class="placing__divider placing__divider_type_mobile"></div>
+            <p class="placing__checklist-total">Сумма: 1040 ₽</p>
+            <button type="submit" class="placing__button">Перейти к оплате заказа</button>
+
+            <!-- Обработка данных -->
+             <label class="placing__checkbox">
+                <input type="checkbox" checked>
+                <span></span>
+                <p>Я даю согласие на обработку своих <a href="#">персональных данных</a></p>
+             </label>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-status modal-status_type_error">
+      <div class="modal-status__container">
+        <div class="modal-status__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path 
+              d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 
+              12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM11 
+              15H13V17H11V15ZM11 7H13V13H11V7Z" fill="#D9BD75"
+              />
+          </svg>
+        </div>
+        <h3 class="modal-status__title">Оплата не прошла</h3>
+        <p class="modal-status__text">Попробуйте ещё раз</p>
+        <button type="button" class="modal-status__button">Вернуться к оформлению заказа</button>
+      </div>
+    </div>
+    <div class="modal-status modal-status_type_success">
+      <div class="modal-status__container">
+        <div class="modal-status__icon">
+          <svg width="41" height="40" viewBox="0 0 41 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.4997 36.6673C11.2949 36.6673 3.83301 29.2053 3.83301 20.0007C3.83301 10.7959 11.2949 3.33398 20.4997 3.33398C29.7043 3.33398 37.1663 10.7959 37.1663 20.0007C37.1663 29.2053 29.7043 36.6673 20.4997 36.6673ZM20.4997 33.334C27.8635 33.334 33.833 27.3645 33.833 20.0007C33.833 12.6369 27.8635 6.66732 20.4997 6.66732C13.1359 6.66732 7.16634 12.6369 7.16634 20.0007C7.16634 27.3645 13.1359 33.334 20.4997 33.334ZM18.8373 26.6673L11.7663 19.5963L14.1234 17.2392L18.8373 21.9533L28.2655 12.5252L30.6225 14.8822L18.8373 26.6673Z" fill="#20A569" />
+          </svg>
+        </div>
+        <h3 class="modal-status__title">Оплата прошла успешно</h3>
+        <p class="modal-status__text">
+          Ваш заказ успешно оплачен. Номер вашего заказа:<br>
+          <span class="modal-status__number">#12345678910</span><br>
+          Время доставки: как можно скорее
+        </p>
+        <div class="modal-status__details">
+          <h4 class="modal-status__details-title">Состав заказа</h4>
+          <div class="modal-status__details-list">
+            <div class="modal-status__details-item">
+              <img src="./img/image.jpg" alt="" class="modal-status__details-image">
+              <p class="modal-status__details-name">Сырники с вареной сгущенкой, черешней и сметанным муссом</p>
+            </div>
+            <div class="modal-status__details-item">
+              <img src="./img/image.jpg" alt="" class="modal-status__details-image">
+              <p class="modal-status__details-name">Сырники с вареной сгущенкой, черешней и сметанным муссом</p>
+            </div>
+            <div class="modal-status__details-item">
+              <img src="./img/image.jpg" alt="" class="modal-status__details-image">
+              <p class="modal-status__details-name">Сырники с вареной сгущенкой, черешней и сметанным муссом</p>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="modal-status__button">Связаться с менеджером</button>
+      </div>
+    </div>
+  </section>
+
+  <script type="text/javascript" src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=84871a8c-3404-46ef-8f93-34934ed0ac3c"></script>
+  <script src="script.js"></script>
+</body>
+</html>
