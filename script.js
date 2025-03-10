@@ -180,7 +180,6 @@ document.addEventListener("DOMContentLoaded", function () {
     formObject.devicesCount = devicesCount.dataset.value;
 
     if (isValid) {
-      console.log(formObject);
       placingContainer.style.display = "none";
       // modalSuccess.classList.add("open");
       modalError.classList.add("open");
@@ -205,7 +204,6 @@ document.addEventListener("DOMContentLoaded", function () {
   function generateTimeOptions() {
     const currentDate = new Date();
     currentDate.setMinutes(currentDate.getMinutes() + 90); // Добавляем 1.5 часа
-    console.log(currentDate);
 
     let currentHours = currentDate.getHours();
     let currentMinutes = currentDate.getMinutes();
@@ -230,7 +228,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Генерируем список времени (через каждые 30 минут) до 23:30
     while (nextAvailableHour < 22 ||(nextAvailableHour === 22 && nextAvailableMinute <= 30)) {
-      console.log(nextAvailableHour, nextAvailableMinute);
       // Создаем новый элемент списка
       const listItem = document.createElement("li");
       listItem.classList.add("dropdown-item");
@@ -417,7 +414,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // установка маркера на карте
   function setMapMarker(lat, lon, address) {
-    console.log(lat, lon, address);
     const latitude = parseFloat(lat);
     const longitude = parseFloat(lon);
     const map = document.querySelector('.map')
@@ -501,7 +497,6 @@ document.addEventListener("DOMContentLoaded", function () {
       })
     } else {
       legendItem.forEach((item) => {
-        console.log(item.dataset.value, area);
         if (item.dataset.value !== area) {
           item.style.display = 'none';
         } else {
@@ -598,12 +593,11 @@ document.addEventListener("DOMContentLoaded", function () {
     totalPrice.textContent = `Сумма: ${totalSum} ₽`;
 
     if((totalCart - discountSum - promoSum) < minPrice) {
-      console.log(totalCart - discountSum);
       btnSubmit.disabled = true;
       showAlert(`Минимальная стоимость блюд в заказе, с учетом скидок, должна быть не менее ${minPrice} ₽. Добавьте в корзину товаров еще на ${minPrice - (totalCart - promoSum - discountSum)} ₽.`, "error", leftSideContainer, 'total-error', false);
     } else {
-      checkValidate();
       deleteAlertToLeftSide('total-error');
+      checkValidate();
     }
   }
 
@@ -677,7 +671,6 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((result) => {
         result = JSON.parse(result);
         addressSuggestions.innerHTML = "";
-        console.log(result.suggestions);
         if(result.suggestions.length !== 0) {
           result.suggestions.forEach((item) => {
             if(item.data.qc_geo > 2) return;
