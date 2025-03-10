@@ -343,15 +343,15 @@
 }
 .placing .delivery-address__dropdown-list {
   position: absolute;
-  top: calc(100% + 13px);
+  top: calc(100% + 8px);
   left: 0;
   width: 100%;
   max-height: 200px;
   font-size: 1.4em;
   font-weight: 400;
   line-height: 1.4em;
-  background: white;
-  border-radius: 8px 0 0 8px;
+  background: #fff;
+  border-radius: 8px;
   box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.06);
   margin: 0;
   padding: 4px;
@@ -450,8 +450,8 @@
   font-size: 1.4em;
   font-weight: 400;
   line-height: 1.4em;
-  background: white;
-  border-radius: 8px 0 0 8px;
+  background: #fff;
+  border-radius: 8px;
   box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.06);
   margin: 0;
   padding: 4px;

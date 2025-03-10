@@ -3,12 +3,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const dropdown = document.querySelectorAll(".dropdown");
 
   const cart = [
-    { id: 1, count: 100, name: "Прибор 1", price: 100 },
+    { id: 1, count: 3, name: "Прибор 1", price: 100 },
     { id: 2, count: 1, name: "Прибор 2", price: 100 },
     { id: 3, count: 1, name: "Прибор 3", price: 300 },
   ]
   let isDelivery = true;
   let deliveryPrice = 0;
+  let deliveryFreePrice = null;
   let minPrice = 600; // Минимальная сумма заказа
   let promoCodePrice = 0;
   let containsArea;
@@ -499,6 +500,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           item.style.display = 'flex';
           deliveryPrice = item.dataset.price;
+          deliveryFreePrice = item.dataset.free;
           updateDeliveryPrice('delivery');
         }
       })
@@ -579,7 +581,9 @@ document.addEventListener("DOMContentLoaded", function () {
       discount.textContent = "0 ₽";
       discountContainer.style.display = "none";
       updateDeliveryPrice('delivery');
-      totalSum += parseInt(deliveryPrice);
+      if(deliveryFreePrice && totalSum < deliveryFreePrice) {
+        totalSum += parseInt(deliveryPrice);
+      }
     }
     
     totalPrice.textContent = `Сумма: ${totalSum} ₽`;
@@ -595,13 +599,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const count = document.getElementById("count");
   const price = document.getElementById("price");
   const delivery = document.getElementById("deliveryPrice");
+  const countTotal = cart.reduce((acc, item) => acc + item.count, 0)
+  const priceSum = cart.reduce((acc, item) => acc + item.price * item.count, 0);
 
-  count.textContent = `${cart.reduce((acc, item) => acc + item.count, 0)} товаров`;
-  price.textContent = `${cart.reduce((acc, item) => acc + item.price * item.count, 0)} ₽`;
+  count.textContent = `${countTotal} ${plural(countTotal, { one: "товар", few: "товара", many: "товаров" })}`;
+  price.textContent = `${priceSum} ₽`;
 
   function updateDeliveryPrice(type) {
     if(type === 'delivery') {
-      delivery.textContent = `${deliveryPrice === 0 ? "Бесплатно" : `${deliveryPrice} ₽`}`;
+      if(deliveryFreePrice && priceSum > deliveryFreePrice) {
+        delivery.textContent = `Бесплатно`;
+      } else {
+        delivery.textContent = `${deliveryPrice === 0  ? "Бесплатно" : `${deliveryPrice} ₽`}`;
+      }
     } else {
       delivery.textContent = `Бесплатно`;
     }
@@ -797,4 +807,11 @@ document.addEventListener("DOMContentLoaded", function () {
   consentCheckbox.addEventListener("change", () => {
     checkValidate();
   });
+
+  // Плюрализация
+  function plural(value, variants = {}, locale = 'ru-RU') {
+    const key = new Intl.PluralRules(locale).select(value);
+    // Возвращаем вариант по ключу, если он есть
+    return variants[key] || variants['one'];
+  }
 });
