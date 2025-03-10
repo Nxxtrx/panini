@@ -537,6 +537,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         checkValidate();
         updateTotalPrice();
+        maps.container.fitToViewport();
       }
     });
   });
