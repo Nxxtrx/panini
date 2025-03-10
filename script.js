@@ -473,6 +473,7 @@ document.addEventListener("DOMContentLoaded", function () {
         showAlert("Доставка по этому адресу недоступна", "error", container, 'location-error');
         btnSubmit.disabled = true;
         showAreaPrice();
+        checkValidate();
       }
     } else {
       btnSubmit.disabled = false;
@@ -601,7 +602,7 @@ document.addEventListener("DOMContentLoaded", function () {
       btnSubmit.disabled = true;
       showAlert(`Минимальная стоимость блюд в заказе, с учетом скидок, должна быть не менее ${minPrice} ₽. Добавьте в корзину товаров еще на ${minPrice - (totalCart - promoSum - discountSum)} ₽.`, "error", leftSideContainer, 'total-error', false);
     } else {
-      btnSubmit.disabled = false;
+      checkValidate();
       deleteAlertToLeftSide('total-error');
     }
   }
@@ -815,8 +816,9 @@ document.addEventListener("DOMContentLoaded", function () {
   function checkValidate() {
     const locationError = document.querySelector(".alert[data-value='location-error']");
     const consentCheckbox = document.querySelector(".placing__checkbox input"); 
+    const totalError = document.querySelector(".alert[data-value='total-error']");
 
-    if (consentCheckbox.checked && !locationError) {
+    if (consentCheckbox.checked && !locationError && !totalError) {
       btnSubmit.disabled = false;
     } else {
       btnSubmit.disabled = true;
