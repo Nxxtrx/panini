@@ -591,6 +591,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if(totalCart - discountSum < minPrice) {
       btnSubmit.disabled = true;
       showAlert(`Минимальная стоимость блюд в заказе, с учетом скидок, должна быть не менее ${minPrice} ₽. Добавьте в корзину товаров еще на ${minPrice - (totalCart - discountSum)} ₽.`, "error", leftSideContainer, 'total-error', false);
+    } else {
+      deleteAlertToLeftSide('total-error');
     }
   }
 
@@ -789,6 +791,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const leftSideContainer = document.querySelector(".placing__left");
     if(!alert) return 
     leftSideContainer.appendChild(alert);
+  }
+
+  function deleteAlertToLeftSide(alert) {
+    const leftSideContainer = document.querySelector(".placing__left");
+    const errorAlert = leftSideContainer.querySelector(`.alert[data-value="${alert}"]`);
+    if(!errorAlert) return
+    errorAlert.remove();
+    
   }
 
   function checkValidate() {
