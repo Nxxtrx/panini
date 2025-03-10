@@ -314,10 +314,7 @@
   display: block;
 }
 .placing__checkbox a {
-  text-decoration: none;
   color: inherit;
-}
-.placing__checkbox a:hover {
   text-decoration: underline;
 }
 .placing .delivery-address__input {
@@ -758,7 +755,10 @@
     display: block;
   }
   .placing__footer-text {
+    margin-top: 40px;
     font-size: 18px;
+    padding: 10px;
+    border: 1px solid #EC8C35;
   }
   .placing__output {
     box-shadow: none;

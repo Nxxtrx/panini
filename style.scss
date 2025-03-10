@@ -355,12 +355,8 @@
     }
 
     a {
-      text-decoration: none;
       color: inherit;
-
-      &:hover {
-        text-decoration: underline;
-      }
+      text-decoration: underline;
     }
   }
 
@@ -873,7 +869,10 @@
     }
 
     &__footer-text {
+      margin-top: 40px;
       font-size: 18px;
+      padding: 10px;
+      border: 1px solid #EC8C35;
     }
 
     &__output {

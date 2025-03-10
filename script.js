@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let deliveryFreePrice = null;
   let minPrice = 600; // Минимальная сумма заказа
   let promoCodePrice = 0;
+  let locationAddressQuery = null;
   let containsArea;
   const btnSubmit = document.querySelector('.placing__button');
   const modalSuccess = document.querySelector('.modal-status_type_success');
@@ -78,6 +79,11 @@ document.addEventListener("DOMContentLoaded", function () {
   phoneInput.addEventListener("input", function (e) {
     let value = e.target.value.replace(/\D/g, "");
     if (value.startsWith("7")) value = value.substring(1);
+
+    if (value.length > 0 && value[0] !== "9") {
+      value = "9" + value;
+  }
+
     let formattedValue = "+7 ";
 
     if (value.length > 0) formattedValue += `(${value.substring(0, 3)}`;
@@ -176,8 +182,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (isValid) {
       console.log(formObject);
       placingContainer.style.display = "none";
-      modalSuccess.classList.add("open");
-      // modalError.classList.add("open");
+      // modalSuccess.classList.add("open");
+      modalError.classList.add("open");
     }
   });
 
@@ -445,8 +451,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // функция для добавления ошибки локации
-  function addLocationError(containsArea, reset = false) {
-
+  function addLocationError(containsArea, reset = false,) {
+    const container = document.querySelector(".delivery-address");
     const leftSideContainer = document.querySelector(".placing__left");
     const leftSideError = leftSideContainer.querySelector(".alert[data-value='location-error']");
 
@@ -464,7 +470,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!containsArea) {
       if(!leftSideError) {
-        showAlert("Доставка по этому адресу не доступна", "error", map, 'location-error');
+        showAlert("Доставка по этому адресу недоступна", "error", container, 'location-error');
         btnSubmit.disabled = true;
         showAreaPrice();
       }
@@ -522,17 +528,19 @@ document.addEventListener("DOMContentLoaded", function () {
         // deliveryZone.style.display = "none";
         deliveryTime.textContent = "Самовывоз ко времени";
         addLocationError(null, true);
-        updateTotalPrice();
         checkValidate();
+        updateTotalPrice();
       } else {
         isDelivery = true;
         deliveryAddress.style.display = "flex";
         map.style.display = "block";
         // deliveryZone.style.display = "block";
         deliveryTime.textContent = "Доставка ко времени";
-        addLocationError(containsArea);
-        updateTotalPrice();
+        if(locationAddressQuery) {
+          addLocationError(containsArea);
+        }
         checkValidate();
+        updateTotalPrice();
       }
     });
   });
@@ -550,10 +558,10 @@ document.addEventListener("DOMContentLoaded", function () {
     let totalCart = cart.reduce((acc, item) => acc + item.price * item.count, 0);
     let totalSum = totalCart;
     let discountSum = 0;
+    let promoSum = 0;
 
     // применение промокода
     if(promoCodePrice) {
-      let promoSum = 0;
       if(promoCodePrice.type === 'percent') {
         promoSum = totalCart * (promoCodePrice.discount / 100);
         promoCodeElement.textContent = `${promoCodePrice.discount} %`;
@@ -588,10 +596,12 @@ document.addEventListener("DOMContentLoaded", function () {
     
     totalPrice.textContent = `Сумма: ${totalSum} ₽`;
 
-    if(totalCart - discountSum < minPrice) {
+    if((totalCart - discountSum - promoSum) < minPrice) {
+      console.log(totalCart - discountSum);
       btnSubmit.disabled = true;
-      showAlert(`Минимальная стоимость блюд в заказе, с учетом скидок, должна быть не менее ${minPrice} ₽. Добавьте в корзину товаров еще на ${minPrice - (totalCart - discountSum)} ₽.`, "error", leftSideContainer, 'total-error', false);
+      showAlert(`Минимальная стоимость блюд в заказе, с учетом скидок, должна быть не менее ${minPrice} ₽. Добавьте в корзину товаров еще на ${minPrice - (totalCart - promoSum - discountSum)} ₽.`, "error", leftSideContainer, 'total-error', false);
     } else {
+      btnSubmit.disabled = false;
       deleteAlertToLeftSide('total-error');
     }
   }
@@ -628,6 +638,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const addressSuggestions = document.querySelector(".delivery-address__dropdown-list");
 
   addressQuery.addEventListener("input", () => {
+    locationAddressQuery = addressQuery.value;
     const query = addressQuery.value;
     if(!query || query.length < 3) {
       addressSuggestions.innerHTML = "";
